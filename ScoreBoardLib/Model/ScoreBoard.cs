@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScoreBoardLib.Model.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ScoreBoardLib.Model
 {
-    public class ScoreBoard
+    public class ScoreBoard : IScoreBoard
     {
         private const int MAX_MATCHES = 5;
 
-        private List<Match> Matches { get; set; } = new List<Match>();
+        private List<IMatch> Matches { get; set; } = new List<IMatch>();
 
-        public List<Match> MatchesSortedByTotalScore
+        public List<IMatch> MatchesSortedByTotalScore
         {
             get
             {
@@ -20,7 +21,7 @@ namespace ScoreBoardLib.Model
             }
         }
 
-        public void RegisterMatch(Match match)
+        public void RegisterMatch(IMatch match)
         {
             Matches.Add(match);
 

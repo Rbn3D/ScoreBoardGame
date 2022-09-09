@@ -1,5 +1,7 @@
 ﻿using ScoreBoardLib.Logic;
+using ScoreBoardLib.Logic.Abstract;
 using ScoreBoardLib.Model;
+using ScoreBoardLib.Model.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,16 @@ using System.Threading.Tasks;
 
 namespace ScoreBoardGame
 {
-    public class Menu
+    public class GameMenu
     {
-        private GameManager GameManager { get; set; } = new GameManager();
+        public GameMenu(IGameManager gameManager)
+        {
+            GameManager = gameManager;
+        }
 
-        public void RunMenuLoop()
+        private IGameManager GameManager { get; set; }
+
+        public void RunLoop()
         {
             string userChoice;
 
@@ -39,7 +46,7 @@ namespace ScoreBoardGame
                 {
                     case "1": // Start Game
 
-                        (Match matchSt, eGameOptionResult resultSt) = GameManager.StartMatch();
+                        (IMatch matchSt, eGameOptionResult resultSt) = GameManager.StartMatch();
 
                         if(resultSt == eGameOptionResult.MatchAlreadyStarted)
                             Console.WriteLine("Cannot start a new game because there is one already started, you must finish it first.");
@@ -51,7 +58,7 @@ namespace ScoreBoardGame
                         break;
                     case "2": // Finish Game
 
-                        (Match matchFn, eGameOptionResult resultFn) = GameManager.FinishMatch();
+                        (IMatch matchFn, eGameOptionResult resultFn) = GameManager.FinishMatch();
 
                         if (resultFn == eGameOptionResult.NoMatchToFinish)
                             Console.WriteLine("Cannot finish game because there isn't an already started game, you must start one first.");
@@ -78,7 +85,7 @@ namespace ScoreBoardGame
                         break;
                     case "4": // Get Summary
 
-                        List<Match> matches = GameManager.GetSummaryByTotalScore();
+                        List<IMatch> matches = GameManager.GetSummaryByTotalScore();
 
                         Console.WriteLine("Summary of games by total score:");
                         Console.WriteLine("");
@@ -103,7 +110,7 @@ namespace ScoreBoardGame
             } while (true);
         }
 
-        private string FormatList(List<Match> matches)
+        private string FormatList(List<IMatch> matches)
         {
             StringBuilder stringBuilder = new StringBuilder();
 

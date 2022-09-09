@@ -1,4 +1,6 @@
-﻿using ScoreBoardLib.Model;
+﻿using ScoreBoardLib.Logic.Abstract;
+using ScoreBoardLib.Model;
+using ScoreBoardLib.Model.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +9,19 @@ using System.Threading.Tasks;
 
 namespace ScoreBoardLib.Logic
 {
-    public class GameManager
+    public class GameManager : IGameManager
     {
-        private Match StartedMatch { get; set; }
-        private Match FinishedMatch { get; set; }
+        private IMatch StartedMatch { get; set; }
+        private IMatch FinishedMatch { get; set; }
 
-        private ScoreBoard ScoreBoard = new ScoreBoard();
+        private IScoreBoard ScoreBoard { get; set; }
 
-        public (Match, eGameOptionResult) StartMatch()
+        public GameManager(IScoreBoard scoreBoard)
+        {
+            ScoreBoard = scoreBoard;
+        }
+
+        public (IMatch, eGameOptionResult) StartMatch()
         {
             if (StartedMatch == null)
             {
@@ -28,14 +35,14 @@ namespace ScoreBoardLib.Logic
             return (null, eGameOptionResult.MatchAlreadyStarted);
         }
 
-        public (Match, eGameOptionResult) FinishMatch()
+        public (IMatch, eGameOptionResult) FinishMatch()
         {
             if (StartedMatch == null)
             {
                 return (null, eGameOptionResult.NoMatchToFinish);
             }
 
-            if(FinishedMatch != null)
+            if (FinishedMatch != null)
             {
                 return (null, eGameOptionResult.MatchFinishedButNotStored);
             }
@@ -62,7 +69,7 @@ namespace ScoreBoardLib.Logic
             return eGameOptionResult.Ok;
         }
 
-        public List<Match> GetSummaryByTotalScore()
+        public List<IMatch> GetSummaryByTotalScore()
         {
             return ScoreBoard.MatchesSortedByTotalScore;
         }

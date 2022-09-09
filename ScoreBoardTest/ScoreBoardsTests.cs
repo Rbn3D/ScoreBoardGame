@@ -1,12 +1,13 @@
 using NUnit.Framework;
 using ScoreBoardLib.Model;
+using ScoreBoardLib.Model.Abstract;
 using System.Collections.Generic;
 
 namespace ScoreBoardTest
 {
     public class ScoreBoardsTests
     {
-        public ScoreBoard ScoreBoard { get; set; }
+        public IScoreBoard ScoreBoard { get; set; }
 
         [SetUp]
         public void Setup()
@@ -36,15 +37,15 @@ namespace ScoreBoardTest
         [Test]
         public void AssertOldItemsAreDeleted()
         {
-            Match match1 = new Match("SevillaFC", "BetisFC") { HomeTeamScore = 3, AwayTeamScore = 2 };
-            Match match2 = new Match("Madrid", "Barcelona") { HomeTeamScore = 1, AwayTeamScore = 3 };
-            Match match3 = new Match("MalagaFC", "Altetico") { HomeTeamScore = 2, AwayTeamScore = 4 };
+            IMatch match1 = new Match("SevillaFC", "BetisFC") { HomeTeamScore = 3, AwayTeamScore = 2 };
+            IMatch match2 = new Match("Madrid", "Barcelona") { HomeTeamScore = 1, AwayTeamScore = 3 };
+            IMatch match3 = new Match("MalagaFC", "Altetico") { HomeTeamScore = 2, AwayTeamScore = 4 };
 
-            Match match4 = new Match("Juventus", "Madrid") { HomeTeamScore = 1, AwayTeamScore = 3 };
-            Match match5 = new Match("Barcelona", "SevillaFC") { HomeTeamScore = 6, AwayTeamScore = 4 };
-            Match match6 = new Match("SevillaFC", "Madrid") { HomeTeamScore = 2, AwayTeamScore = 4 };
-            Match match7 = new Match("Madrid", "MalagaFC") { HomeTeamScore = 3, AwayTeamScore = 5 };
-            Match match8 = new Match("Altetico", "SevillaFc") { HomeTeamScore = 3, AwayTeamScore = 1 };
+            IMatch match4 = new Match("Juventus", "Madrid") { HomeTeamScore = 1, AwayTeamScore = 3 };
+            IMatch match5 = new Match("Barcelona", "SevillaFC") { HomeTeamScore = 6, AwayTeamScore = 4 };
+            IMatch match6 = new Match("SevillaFC", "Madrid") { HomeTeamScore = 2, AwayTeamScore = 4 };
+            IMatch match7 = new Match("Madrid", "MalagaFC") { HomeTeamScore = 3, AwayTeamScore = 5 };
+            IMatch match8 = new Match("Altetico", "SevillaFc") { HomeTeamScore = 3, AwayTeamScore = 1 };
 
             ScoreBoard.RegisterMatch(match1);
             ScoreBoard.RegisterMatch(match2);
@@ -60,7 +61,7 @@ namespace ScoreBoardTest
 
             Assert.AreEqual(ScoreBoard.MatchesSortedByTotalScore.Count, 5);
 
-            List<Match> score = ScoreBoard.MatchesSortedByTotalScore;
+            List<IMatch> score = ScoreBoard.MatchesSortedByTotalScore;
 
             Assert.Contains(match4, score);
             Assert.Contains(match5, score);
@@ -81,7 +82,7 @@ namespace ScoreBoardTest
             ScoreBoard.RegisterMatch(new Match("Juventus", "Madrid") { HomeTeamScore = 4, AwayTeamScore = 4 });     // 8
             ScoreBoard.RegisterMatch(new Match("Barcelona", "SevillaFC") { HomeTeamScore = 6, AwayTeamScore = 6 }); // 12
 
-            List<Match> sortedScore = ScoreBoard.MatchesSortedByTotalScore;
+            List<IMatch> sortedScore = ScoreBoard.MatchesSortedByTotalScore;
 
             Assert.AreEqual(sortedScore[0].TotalScore, 16);
             Assert.AreEqual(sortedScore[1].TotalScore, 12);

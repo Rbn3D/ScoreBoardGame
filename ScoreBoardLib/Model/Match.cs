@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScoreBoardLib.Model.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScoreBoardLib.Model
 {
-    public class Match
+    public class Match : IMatch
     {
         public string HomeTeam { get; set; }
         public string AwayTeam { get; set; }
