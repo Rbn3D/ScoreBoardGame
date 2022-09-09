@@ -24,7 +24,7 @@ Football World Cup Score Board
 Game has 4 options.
 
 * 1. Start a game.
-* * I guess I have to simulate a game starting at 0-0, and this score would change automatically over time (In a real world app this score would be returned from "data partners" I assume).
+* * I guess I have to simulate a game starting at 0-0, and this score would change automatically over time (In a real world app this score would be returned by "data partners" I assume).
 
 * 2. Finish Game.
 * * I finish the match and store it temporally, including current score. I remove the oldest match from the scoreboard.
