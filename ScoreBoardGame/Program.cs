@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScoreBoardLib.Logic;
+using System;
 
 namespace ScoreBoardGame
 {
@@ -6,7 +7,9 @@ namespace ScoreBoardGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu menu = new Menu();
+
+            menu.RunMenuLoop();
         }
     }
 }
