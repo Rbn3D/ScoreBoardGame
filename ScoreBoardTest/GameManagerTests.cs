@@ -14,7 +14,7 @@ namespace ScoreBoardTest
         [SetUp]
         public void Setup()
         {
-            GameManager = new GameManager(new ScoreBoard());
+            GameManager = new GameManager(new ScoreBoard(), new DataProvider());
         }
 
         [Test]

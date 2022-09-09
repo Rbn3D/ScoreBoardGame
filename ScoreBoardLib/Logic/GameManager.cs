@@ -11,23 +11,23 @@ namespace ScoreBoardLib.Logic
 {
     public class GameManager : IGameManager
     {
+        private IScoreBoard ScoreBoard { get; set; }
+        private IDataProvider DataProvider { get; set; }
+
         private IMatch StartedMatch { get; set; }
         private IMatch FinishedMatch { get; set; }
 
-        private IScoreBoard ScoreBoard { get; set; }
-
-        public GameManager(IScoreBoard scoreBoard)
+        public GameManager(IScoreBoard scoreBoard, IDataProvider dataProvider)
         {
             ScoreBoard = scoreBoard;
+            DataProvider = dataProvider;
         }
 
         public (IMatch, eGameOptionResult) StartMatch()
         {
             if (StartedMatch == null)
             {
-                (string homeTeam, string awayTeam) = Teams.GetRandomTeamPair();
-
-                StartedMatch = new Match(homeTeam, awayTeam);
+                StartedMatch = DataProvider.GetNewMatch();
 
                 return (StartedMatch, eGameOptionResult.Ok);
             }
@@ -47,13 +47,8 @@ namespace ScoreBoardLib.Logic
                 return (null, eGameOptionResult.MatchFinishedButNotStored);
             }
 
-            (int homeScore, int awayScore) = GetRandomScore();
-
-            FinishedMatch = StartedMatch;
+            FinishedMatch = DataProvider.GetMatchResult(StartedMatch);
             StartedMatch = null;
-
-            FinishedMatch.HomeTeamScore = homeScore;
-            FinishedMatch.AwayTeamScore = awayScore;
 
             return (FinishedMatch, eGameOptionResult.Ok);
         }
@@ -72,13 +67,6 @@ namespace ScoreBoardLib.Logic
         public List<IMatch> GetSummaryByTotalScore()
         {
             return ScoreBoard.MatchesSortedByTotalScore;
-        }
-
-        private (int homeScore, int awayScore) GetRandomScore()
-        {
-            Random rnd = new Random();
-
-            return (rnd.Next(6), rnd.Next(6));
         }
     }
 }

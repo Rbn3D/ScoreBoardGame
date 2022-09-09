@@ -1,5 +1,7 @@
 ﻿using ScoreBoardLib.Logic;
+using ScoreBoardLib.Logic.Abstract;
 using ScoreBoardLib.Model;
+using ScoreBoardLib.Model.Abstract;
 using System;
 
 namespace ScoreBoardGame
@@ -8,8 +10,9 @@ namespace ScoreBoardGame
     {
         static void Main(string[] args)
         {
-            ScoreBoard scoreBoard = new ScoreBoard();
-            GameManager gameManager = new GameManager(scoreBoard);
+            IScoreBoard scoreBoard = new ScoreBoard();
+            IDataProvider dataProvider = new DataProvider();
+            IGameManager gameManager = new GameManager(scoreBoard, dataProvider);
 
             GameMenu game = new GameMenu(gameManager);
 
